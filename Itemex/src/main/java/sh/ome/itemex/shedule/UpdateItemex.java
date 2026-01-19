@@ -12,6 +12,7 @@ import static org.bukkit.Bukkit.getLogger;
 
 public class UpdateItemex {
     public UpdateItemex(String version) throws IOException {
+        /*
         URL url = null;
         String file_url;
         String server_version = null;
@@ -40,6 +41,10 @@ public class UpdateItemex {
         }
         catch (Exception e){
             getLogger().info("Exception: " + e);
+        }
+
+        if (server_version == null) {
+            return;
         }
 
         // if version on server is newer
@@ -85,6 +90,7 @@ public class UpdateItemex {
         else {
             getLogger().info(ANSI_GREEN + "You have already the newest Itemex version: v" + server_version + ANSI_RESET);
         }
+        */
     }
 
 }

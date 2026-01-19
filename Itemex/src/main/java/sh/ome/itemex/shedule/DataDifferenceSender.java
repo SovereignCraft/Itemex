@@ -27,13 +27,16 @@ public class DataDifferenceSender {
 
 
     public static void sendDataDifferencesToServer() {
+        /*
         String responseIds = sendLatestIdsAndGetResponseAsync();
         if(responseIds != null && !responseIds.isEmpty()) {
             //getLogger().info("# DEBUG - from server: " + responseIds);
         }
+        */
     }
 
     private static String sendLatestIdsAndGetResponseAsync() {
+        /*
         // Führt den Code asynchron zum Hauptthread aus
         Bukkit.getScheduler().runTaskAsynchronously(Itemex.getPlugin(Itemex.class), () -> {
             String ids = null;
@@ -85,6 +88,7 @@ public class DataDifferenceSender {
                 e.printStackTrace();
             }
         });
+        */
         return "string";
     }
 

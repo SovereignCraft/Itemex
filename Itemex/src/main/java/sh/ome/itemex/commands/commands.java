@@ -566,6 +566,7 @@ public class commands {
 
 
     public static void checkAndSendUsageCounts() {
+        /*
         int totalCommandsEntered = 0;
 
         // Sum up the usage counts for each command
@@ -608,6 +609,7 @@ public class commands {
             httpRequestThread.start();
 
         }
+        */
     }
 
 

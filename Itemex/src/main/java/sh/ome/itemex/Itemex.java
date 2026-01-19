@@ -212,6 +212,7 @@ public final class Itemex extends JavaPlugin implements Listener {
 
 
         // Check if the token already exists
+        /*
         if (!config.contains("jwt_token")) {
             try {
                 //getLogger().info("# DEBUG - jwt_missing: server_id: " + server_id);
@@ -265,7 +266,7 @@ public final class Itemex extends JavaPlugin implements Listener {
         }
         else
             this.jwt_token = config.getString("jwt_token");
-
+        */
         // end jwt token check
 
 
@@ -345,6 +346,7 @@ public final class Itemex extends JavaPlugin implements Listener {
 
 
         //Check update
+        /*
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             try {
                 new UpdateItemex(version);
@@ -353,8 +355,9 @@ public final class Itemex extends JavaPlugin implements Listener {
                 throw new RuntimeException(e);
             }
         }, 100, 288000); //20 == 1 second -> 288000 = 4h
+        */
 
-
+        /*
         if(itemex_stats) { // itemex_stats
             // send all database entries
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
@@ -362,7 +365,7 @@ public final class Itemex extends JavaPlugin implements Listener {
                 DataDifferenceSender.sendDataDifferencesToServer();
             }, 200, 288000); //20 == 1 second -> 288000 = 4h
         }
-
+        */
 
 
     } // end onenable()
@@ -388,9 +391,11 @@ public final class Itemex extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        /*
         if(itemex_stats) { //itemex_stats
             checkAndSendUsageCounts();
         }
+        */
         mtop = null;
         System.gc(); // Suggest JVM to run garbage collection
         getLogger().info("ITEMEX - Free Market Item Exchange Plugin unloaded");
@@ -404,6 +409,7 @@ public final class Itemex extends JavaPlugin implements Listener {
 
 
     public void checkAndSendUsageCounts() {
+        /*
         int totalCommandsEntered = 0;
 
         // Sum up the usage counts for each command
@@ -443,6 +449,7 @@ public final class Itemex extends JavaPlugin implements Listener {
 
             // start the thread
             httpRequestThread.start();
+            */
     }
 
 

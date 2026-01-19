@@ -34,6 +34,7 @@ public class ix_command implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
 
+        /*
         if (Itemex.itemex_stats) {
             // CommandUsageCounts
             String full_command = String.join(" ", strings);
@@ -52,6 +53,7 @@ public class ix_command implements CommandExecutor {
                 Itemex.commandUsageCounts.clear();
             // CommandUsageCounts END
         }
+        */
 
 
         if (command.getName().equalsIgnoreCase("ix")) {
