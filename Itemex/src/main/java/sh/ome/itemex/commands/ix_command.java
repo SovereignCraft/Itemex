@@ -138,7 +138,7 @@ public class ix_command implements CommandExecutor {
                         } else {
                             //create buy order
                             p.sendMessage(Itemex.language.getString("buy_best_sellorder_price") + Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0]);
-                            reply_command = reply_command + create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0], 1, "buy", "market");
+                            create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0], 1, "buy", "market");
                         }
 
                     } // end ix buy
@@ -206,7 +206,7 @@ public class ix_command implements CommandExecutor {
                         }
 
                         if (buy_order_ok && price >= 0 && strings[3].equals("limit")) {
-                            reply_command = reply_command + create_order(p, item_json, price, amount, "buy", strings[3]);
+                            create_order(p, item_json, price, amount, "buy", strings[3]);
                         } else if (strings[3].equals("market")) {
                             if (!Itemex.admin_function && Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0] == 0) {
                                 TextComponent message = new TextComponent(ChatColor.RED + Itemex.language.getString("buy_no_sellorders_to_buy") + ChatColor.WHITE + itemid + "\n" + ChatColor.BLUE + ChatColor.MAGIC + "X" + ChatColor.BLUE + "-> (" + ChatColor.GOLD + Itemex.language.getString("click_here") + ChatColor.BLUE + ") " + Itemex.language.getString("buy_you_can_create") + ChatColor.GREEN + Itemex.language.getString("buy_order") + ChatColor.BLUE + Itemex.language.getString("with") + ": /ix buy " + itemid + " " + amount + " limit");
@@ -216,7 +216,7 @@ public class ix_command implements CommandExecutor {
                                 //create buy order
                                 p.sendMessage(Itemex.language.getString("buy_best_sellorder_price") + Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0]);
                                 if (strings.length >= 5 && strings[4].equals("confirm")) {
-                                    reply_command = reply_command + create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0], amount, "buy", "market");
+                                    create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0], amount, "buy", "market");
                                 } else {
                                     TopOrders topo = Itemex.getPlugin().mtop.get(item_json);
                                     List<sh.ome.itemex.RAM.Order> sell_orders = topo.get_top_sell(Itemex.admin_function);
@@ -306,7 +306,7 @@ public class ix_command implements CommandExecutor {
                                 p.spigot().sendMessage(message);
                             } else {
                                 // create_sell_order(p, itemid, 1, orders[first_buy_order].price); //replaced with create order
-                                reply_command = reply_command + create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_buyorder_prices()[3], 1, "sell", "market");
+                                create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_buyorder_prices()[3], 1, "sell", "market");
                             }
                         } else {
                             if (isnt_damaged)
@@ -386,7 +386,7 @@ public class ix_command implements CommandExecutor {
                                 p.sendMessage("damaged or not supported item");
                             } else if (item_found) {
                                 if (sell_order_ok && price >= 0 && strings[3].equals("limit"))
-                                    reply_command = reply_command + create_order(p, item_json, price, sellorder.amount, "sell", strings[3]);
+                                    create_order(p, item_json, price, sellorder.amount, "sell", strings[3]);
                                 else {
                                     //getLogger().info("# DEBUG SELL market order");
                                     if (!Itemex.admin_function && Itemex.getPlugin().mtop.get(item_json).get_top_buyorder_prices()[0] == 0) {
@@ -397,7 +397,7 @@ public class ix_command implements CommandExecutor {
                                         //create buy order
                                         p.sendMessage(Itemex.language.getString("buy_best_sellorder_price") + Itemex.getPlugin().mtop.get(item_json).get_top_sellorder_prices()[0]);
                                         if (strings.length >= 5 && strings[4].equals("confirm")) {
-                                            reply_command = reply_command + create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_buyorder_prices()[3], sellorder.amount, "sell", "market");
+                                            create_order(p, item_json, Itemex.getPlugin().mtop.get(item_json).get_top_buyorder_prices()[3], sellorder.amount, "sell", "market");
                                         } else {
 
                                             TopOrders topo = Itemex.getPlugin().mtop.get(item_json);

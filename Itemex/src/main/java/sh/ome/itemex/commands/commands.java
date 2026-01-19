@@ -641,10 +641,9 @@ public class commands {
 
 
 
-    public static String create_order(Player p, String item_json, double price, int amount, String buy_or_sell, String market_option) {
+    public static void create_order(Player p, String item_json, double price, int amount, String buy_or_sell, String market_option) {
         //getLogger().info("# DEBUG AT: create_order: " + amount + " item_json: " + item_json);
         String itemid = get_itemid(item_json);
-        String reply_command = "";
 
         ix_command.Order order = new ix_command.Order();
         // create sell order (RAM)
@@ -654,49 +653,58 @@ public class commands {
         order.ordertype = buy_or_sell + ":" + market_option;
         order.price = price;
 
-        sqliteDb db_order = new sqliteDb(order);
-
         if (buy_or_sell.equals("sell")) {
-            if (db_order.createSellOrder() != -1) {
-                reply_command = ChatColor.RED + Itemex.language.getString("sellorder_C") + ChatColor.WHITE + ChatColor.BOLD + "[" + amount + "] " + itemid.toUpperCase() + ChatColor.WHITE + " " + Itemex.language.getString("created");
-            } else {
-                reply_command = Itemex.language.getString("er_sello_ncreated");
-            }
-
-            //p.sendMessage("item_json: " + item_json);
-            //p.sendMessage("amount: " + amount);
-
-            int amountToRemove = amount;
-            Inventory inv = p.getInventory();
-            for (int i = 0; i < inv.getSize(); i++) {
-                ItemStack item = inv.getItem(i);
-                if (item != null && identify_item(item).equals(item_json)) {
-                    int newAmount = item.getAmount() - amountToRemove;
-                    if (newAmount > 0) {
-                        item.setAmount(newAmount);
-                        break;
-                    } else {
-                        inv.setItem(i, null);
-                        amountToRemove -= item.getAmount();
-                    }
-                    if (amountToRemove == 0) break;
+            Bukkit.getScheduler().runTaskAsynchronously(Itemex.getPlugin(), () -> {
+                sqliteDb db_order = new sqliteDb(order);
+                String reply_command = "";
+                if (db_order.createSellOrder() != -1) {
+                    reply_command = ChatColor.RED + Itemex.language.getString("sellorder_C") + ChatColor.WHITE + ChatColor.BOLD + "[" + amount + "] " + itemid.toUpperCase() + ChatColor.WHITE + " " + Itemex.language.getString("created");
+                } else {
+                    reply_command = Itemex.language.getString("er_sello_ncreated");
                 }
-            }
+                p.sendMessage(reply_command);
+
+                //p.sendMessage("item_json: " + item_json);
+                //p.sendMessage("amount: " + amount);
+
+                Bukkit.getScheduler().runTask(Itemex.getPlugin(), () -> {
+                    int amountToRemove = amount;
+                    Inventory inv = p.getInventory();
+                    for (int i = 0; i < inv.getSize(); i++) {
+                        ItemStack item = inv.getItem(i);
+                        if (item != null && identify_item(item).equals(item_json)) {
+                            int newAmount = item.getAmount() - amountToRemove;
+                            if (newAmount > 0) {
+                                item.setAmount(newAmount);
+                                break;
+                            } else {
+                                inv.setItem(i, null);
+                                amountToRemove -= item.getAmount();
+                            }
+                            if (amountToRemove == 0) break;
+                        }
+                    }
+                });
+            });
         }
 
 
         else if (buy_or_sell.equals("buy")) {
-            double buyer_balance = econ.getBalance(p);
-            if ((amount * price) < buyer_balance) {
-                if (db_order.createBuyOrder() != -1)
-                    reply_command = ChatColor.GREEN + Itemex.language.getString("buyorder_C") + ChatColor.WHITE + Itemex.language.getString("created") + ChatColor.BOLD + " [" + amount + "] " + itemid + ChatColor.WHITE;
-                else
-                    reply_command = Itemex.language.getString("erbuyo_ncreated");
-            } else {  //not enough money
-                reply_command = ChatColor.RED + Itemex.language.getString("not_enough_money") + ChatColor.WHITE + Itemex.language.getString("you_need") + ChatColor.GREEN + format_price((amount * price)) + ChatColor.WHITE + Itemex.language.getString("but_you_only_have") + ChatColor.RED + " " + format_price(buyer_balance);
-            }
+            Bukkit.getScheduler().runTaskAsynchronously(Itemex.getPlugin(), () -> {
+                sqliteDb db_order = new sqliteDb(order);
+                String reply_command = "";
+                double buyer_balance = econ.getBalance(p);
+                if ((amount * price) < buyer_balance) {
+                    if (db_order.createBuyOrder() != -1)
+                        reply_command = ChatColor.GREEN + Itemex.language.getString("buyorder_C") + ChatColor.WHITE + Itemex.language.getString("created") + ChatColor.BOLD + " [" + amount + "] " + itemid + ChatColor.WHITE;
+                    else
+                        reply_command = Itemex.language.getString("erbuyo_ncreated");
+                } else {  //not enough money
+                    reply_command = ChatColor.RED + Itemex.language.getString("not_enough_money") + ChatColor.WHITE + Itemex.language.getString("you_need") + ChatColor.GREEN + format_price((amount * price)) + ChatColor.WHITE + Itemex.language.getString("but_you_only_have") + ChatColor.RED + " " + format_price(buyer_balance);
+                }
+                p.sendMessage(reply_command);
+            });
         }
-        return reply_command;
     }
 
 

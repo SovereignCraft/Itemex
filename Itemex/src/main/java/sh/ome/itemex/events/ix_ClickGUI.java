@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
@@ -44,10 +45,16 @@ public class ix_ClickGUI implements Listener {
             if (e.getClickedInventory() == null) {
                 return;
             }
+
+            if (e.getAction() == InventoryAction.COLLECT_TO_CURSOR) {
+                e.setCancelled(true);
+                return;
+            }
+
             String menu_type = e.getView().getTitle().substring(2);
             //getLogger().info("# DEBUG: at click EVENT: " + menu_type + " " + e.getSlot() + " " + e.getClickedInventory().getType().toString());
 
-            if ((e.getClick().isLeftClick() || e.getClick().isRightClick() || e.getClick().isKeyboardClick()) && e.getClickedInventory().getType().toString().equals("CHEST")) {
+            if (e.getClickedInventory().getType().toString().equals("CHEST")) {
                 e.setCancelled(true);
 
                 // SET THE MENU NAME
@@ -223,8 +230,10 @@ public class ix_ClickGUI implements Listener {
                             }
 
                             String amount = customName.replaceAll(".*\\[(\\d+)\\].*", "$1");
-                            if (!amount.equals("") && !customName.equals("."))
+                            if (!amount.equals("") && !customName.equals(".")) {
                                 ix_command.withdraw(get_meta(item_json), amount, p);
+                                p.closeInventory();
+                            }
 
                         } else if (menu_type.contains("Market Orders") || menu_type.contains("Limit Orders")) {
                             // GET ITEM TO BUY OR SELL
@@ -1128,7 +1137,7 @@ public class ix_ClickGUI implements Listener {
             buy_or_sell = false;
 
         if(buy_or_sell) { //buyorder
-            p.sendMessage(create_order(p, item_json, price, amount, "buy", "limit"));
+            create_order(p, item_json, price, amount, "buy", "limit");
         } // end buyorde
 
 
@@ -1137,7 +1146,7 @@ public class ix_ClickGUI implements Listener {
             String parts[] = getFreeInventory(p, item_json).split(":");
             int inv_item_amount = Integer.parseInt( parts[1] );
             if (amount <= inv_item_amount) { // enough in inv
-                p.sendMessage(create_order(p, item_json, price, amount, "sell", "limit"));
+                create_order(p, item_json, price, amount, "sell", "limit");
 
                 int amountToRemove = amount;
                 Inventory inv = p.getInventory();
@@ -1171,7 +1180,7 @@ public class ix_ClickGUI implements Listener {
             buy_or_sell = false;
 
         if(buy_or_sell) { //buyorder
-            p.sendMessage(create_order(p, item_json, price, amount, "buy", "market"));
+            create_order(p, item_json, price, amount, "buy", "market");
         } // end buyorde
 
 
@@ -1180,7 +1189,7 @@ public class ix_ClickGUI implements Listener {
             String parts[] = getFreeInventory(p, item_json).split(":");
             int inv_item_amount = Integer.parseInt( parts[1] );
             if (amount <= inv_item_amount) { // enough in inv
-                p.sendMessage(create_order(p, item_json, price, amount, "sell", "market"));
+                create_order(p, item_json, price, amount, "sell", "market");
 
                 int amountToRemove = amount;
                 Inventory inv = p.getInventory();

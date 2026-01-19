@@ -355,9 +355,8 @@ public class sqliteDb {
 
 
 
-    public static boolean updatePayout(String player_uuid, String item_json, int amount) {
+    public static int updatePayout(String player_uuid, String item_json, int amount) {
         //getLogger().info("at update Payout json: " + item_json);
-        Statement stmt = null;
 
         if (Itemex.c == null) {
             Itemex.c = createDatabase.createConnection();
@@ -366,50 +365,48 @@ public class sqliteDb {
 
         if (Itemex.c != null) {
             try {
-                stmt = Itemex.c.createStatement();
-
                 while (amount > 0) {
-                    String selectSql = "SELECT id, amount FROM PAYOUTS WHERE player_uuid = '" + player_uuid + "' AND itemid = '" + item_json + "' ORDER BY id ASC LIMIT 1";
-                    ResultSet rs = stmt.executeQuery(selectSql);
+                    int id = -1;
+                    int currentAmount = -1;
 
-                    if (!rs.next()) {
-                        break; // exit while loop if no more items found
+                    try (PreparedStatement stmt = Itemex.c.prepareStatement("SELECT id, amount FROM PAYOUTS WHERE player_uuid = ? AND itemid = ? ORDER BY id ASC LIMIT 1")) {
+                        stmt.setString(1, player_uuid);
+                        stmt.setString(2, item_json);
+                        try (ResultSet rs = stmt.executeQuery()) {
+                            if (rs.next()) {
+                                id = rs.getInt("id");
+                                currentAmount = rs.getInt("amount");
+                            } else {
+                                break; // exit while loop if no more items found
+                            }
+                        }
                     }
 
-                    int id = rs.getInt("id");
-                    int currentAmount = rs.getInt("amount");
-
                     if (amount >= currentAmount) {
-                        String deleteSql = "DELETE FROM PAYOUTS WHERE id = " + id;
-                        stmt.executeUpdate(deleteSql);
+                        try (PreparedStatement stmt = Itemex.c.prepareStatement("DELETE FROM PAYOUTS WHERE id = ?")) {
+                            stmt.setInt(1, id);
+                            stmt.executeUpdate();
+                        }
                         amount -= currentAmount;
                     } else {
                         int remainingAmount = currentAmount - amount;
-                        String updateSql = "UPDATE PAYOUTS SET amount = " + remainingAmount + " WHERE id = " + id;
-                        stmt.executeUpdate(updateSql);
+                        try (PreparedStatement stmt = Itemex.c.prepareStatement("UPDATE PAYOUTS SET amount = ? WHERE id = ?")) {
+                            stmt.setInt(1, remainingAmount);
+                            stmt.setInt(2, id);
+                            stmt.executeUpdate();
+                        }
                         amount = 0;
                     }
-
-                    rs.close();
                 }
 
             } catch (Exception e) {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
                 e.printStackTrace();
-                return false;
-            } finally {
-                if (stmt != null) {
-                    try {
-                        stmt.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+                return amount; // Return remaining amount on error
             }
         }
 
-        return amount == 0;
+        return amount;
     }
 
 
@@ -1196,7 +1193,9 @@ public class sqliteDb {
                     else if(amount <= withdraw_threshold) {
                         buyer.sendMessage(ChatColor.DARK_GREEN + Itemex.language.getString("sq_item_sent_to_inv"));
                         ItemStack item2 = constructItem(itemid, amount);
-                        buyer.getInventory().addItem(item2);
+                        Bukkit.getScheduler().runTask(Itemex.getPlugin(), () -> {
+                            buyer.getInventory().addItem(item2);
+                        });
                     }
                     else {
                         // payout directly amount = withdraw_threshold
