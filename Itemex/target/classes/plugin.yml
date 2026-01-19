@@ -7,11 +7,14 @@ description: Item Exchange System - Trade all Items on a free market
 website: ome.sh
 commands:
   ix:
-    description: Itemex commands overviews
+    description: Itemex commands overview
     usage: /<command> <price/buy/sell> <market/limit/stoplimit> <itemname> <amount>
+  i:
+    description: Itemex simple commands overview
+    usage: /<command> <parameter>
 permissions:
   itemex.command.ix:
-    description: global command, opens the GUI
+    description: global command
     default: true
   itemex.command.ix.help:
     description: prints out the help message
@@ -46,7 +49,18 @@ permissions:
   itemex.command.ix.whatIsInMyRightHand:
     description: prints out the item name
     default: true
+  itemex.command.ix.send:
+    description: send items to other players
+    default: true
+  itemex.command.ix.stats:
+      description: print stats about buy- and sellorders
+      default: true
   itemex.command.price:
     description: Prints the current buy and sell orders
     default: true
+
+
+    itemex.command.i:
+      description: global command
+      default: true
 
