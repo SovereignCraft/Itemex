@@ -70,7 +70,7 @@ public final class Itemex extends JavaPlugin implements Listener {
 
     private static Itemex plugin;
     public static Economy econ = null;
-    public static String version = "0.22.2";
+    public static String version = "0.30.0";
     public static String lang;
     public static String database_type;
     public static String db_name;
@@ -210,64 +210,7 @@ public final class Itemex extends JavaPlugin implements Listener {
         this.unitLocation = config.getString("unitLocation");
 
 
-
-        // Check if the token already exists
-        /*
-        if (!config.contains("jwt_token")) {
-            try {
-                //getLogger().info("# DEBUG - jwt_missing: server_id: " + server_id);
-                URL url = new URL(server_url + "/register");
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("POST");
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setDoOutput(true);
-
-                // Create a map to hold counts and id
-                Map<String, Object> data = new HashMap<>();
-                data.put("server_id", server_id);
-
-                // Convert map to JSON string and write to output stream
-                String json = new Gson().toJson(data);
-                try (OutputStream os = con.getOutputStream()) {
-                    os.write(json.getBytes(StandardCharsets.UTF_8));
-                }
-
-                // Check response code
-                int responseCode = con.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // If successful, read the received token from the server
-                    try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-                        StringBuilder response = new StringBuilder();
-                        String line;
-                        while ((line = in.readLine()) != null) {
-                            response.append(line);
-                        }
-
-                        // Assuming the response contains just the token
-                        String trimmedResponse = response.toString().trim();
-
-                        if (trimmedResponse.contains("eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9")) {
-                            config.set("jwt_token", trimmedResponse);
-                            this.jwt_token = config.getString("jwt_token");
-                        }
-
-
-                    }
-                }
-
-                // Close the connection
-                con.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // Save the config
-            saveConfig();
-        }
-        else
-            this.jwt_token = config.getString("jwt_token");
-        */
-        // end jwt token check
+        
 
 
         // generate categories.yml

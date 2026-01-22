@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
-import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -282,10 +281,33 @@ public class commands {
             Map<String, Object> enchantmentData = new HashMap<>();
 
             // Base potion effect
-            PotionData baseData = potionMeta.getBasePotionData();
-            enchantmentData.put("bp_name", baseData.getType().name());
-            enchantmentData.put("bp_ext", baseData.isExtended());
-            enchantmentData.put("bp_upg", baseData.isUpgraded());
+            PotionType type = potionMeta.getBasePotionType();
+            if (type != null) {
+                String name = type.name();
+                boolean ext = false;
+                boolean upg = false;
+
+                if (name.startsWith("LONG_")) {
+                    ext = true;
+                    name = name.substring(5);
+                } else if (name.startsWith("STRONG_")) {
+                    upg = true;
+                    name = name.substring(7);
+                }
+
+                // Map new names to old names for compatibility
+                switch (name) {
+                    case "SWIFTNESS": name = "SPEED"; break;
+                    case "LEAPING": name = "JUMP"; break;
+                    case "HEALING": name = "INSTANT_HEAL"; break;
+                    case "HARMING": name = "INSTANT_DAMAGE"; break;
+                    case "REGENERATION": name = "REGEN"; break;
+                }
+
+                enchantmentData.put("bp_name", name);
+                enchantmentData.put("bp_ext", ext);
+                enchantmentData.put("bp_upg", upg);
+            }
 
             // Custom potion effects
             if (potionMeta.hasCustomEffects()) {
@@ -399,11 +421,31 @@ public class commands {
                 // This is a Potion, Splash Potion, Lingering Potion, or Tipped Arrow
                 PotionMeta potionMeta = (PotionMeta) meta;
                 // Determine the potion type
-                PotionType potionType = PotionType.valueOf(bp_name);
+                
+                String lookupName = bp_name;
+                switch (lookupName) {
+                    case "SPEED": lookupName = "SWIFTNESS"; break;
+                    case "JUMP": lookupName = "LEAPING"; break;
+                    case "INSTANT_HEAL": lookupName = "HEALING"; break;
+                    case "INSTANT_DAMAGE": lookupName = "HARMING"; break;
+                    case "REGEN": lookupName = "REGENERATION"; break;
+                }
+                
+                if (bp_ext) lookupName = "LONG_" + lookupName;
+                else if (bp_upg) lookupName = "STRONG_" + lookupName;
+
+                PotionType potionType = null;
+                try {
+                    potionType = PotionType.valueOf(lookupName);
+                } catch (IllegalArgumentException e) {
+                    try {
+                        potionType = PotionType.valueOf(bp_name);
+                    } catch (IllegalArgumentException e2) {}
+                }
+                
                 if (potionType != null) {
                     // Apply the potion type and modifiers
-                    PotionData potionData = new PotionData(potionType, bp_ext, bp_upg);
-                    potionMeta.setBasePotionData(potionData);
+                    potionMeta.setBasePotionType(potionType);
                 }
 
                 // Check the type of potion and modify the item
