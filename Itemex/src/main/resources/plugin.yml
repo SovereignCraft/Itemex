@@ -1,7 +1,7 @@
 name: Itemex
 version: '${project.version}'
 main: sh.ome.itemex.Itemex
-api-version: 1.19
+api-version: 1.20
 authors: [ oMesh_ ]
 description: Item Exchange System - Trade all Items on a free market
 website: ome.sh
@@ -63,4 +63,3 @@ permissions:
     itemex.command.i:
       description: global command
       default: true
-

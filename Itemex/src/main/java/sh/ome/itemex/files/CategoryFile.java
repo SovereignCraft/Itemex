@@ -425,6 +425,53 @@ public class CategoryFile {
         building_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_CUT_COPPER\"}]");
         building_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_CUT_COPPER_STAIRS\"}]");
         building_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_CUT_COPPER_SLAB\"}]");
+        // 1.21 Copper blocks - Removed for 1.20.6 compile compatibility
+        // building_blocks.add("[{\"itemid\":\"CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"EXPOSED_CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"WEATHERED_CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"OXIDIZED_CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_EXPOSED_CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_WEATHERED_CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_CHISELED_COPPER\"}]");
+        // building_blocks.add("[{\"itemid\":\"COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"EXPOSED_COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"WEATHERED_COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"OXIDIZED_COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_EXPOSED_COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_WEATHERED_COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_COPPER_GRATE\"}]");
+        // building_blocks.add("[{\"itemid\":\"COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"EXPOSED_COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WEATHERED_COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"OXIDIZED_COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_EXPOSED_COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_WEATHERED_COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_COPPER_DOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"COPPER_TRAPDOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"EXPOSED_COPPER_TRAPDOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WEATHERED_COPPER_TRAPDOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"OXIDIZED_COPPER_TRAPDOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_COPPER_TRAPDOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_EXPOSED_COPPER_TRAPDOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_WEATHERED_COPPER_TRAPDOOR\"}]");
+        // building_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_COPPER_TRAPDOOR\"}]");
+        // 1.21 Tuff blocks - Removed for 1.20.6 compile compatibility
+        // building_blocks.add("[{\"itemid\":\"TUFF_STAIRS\"}]");
+        // building_blocks.add("[{\"itemid\":\"TUFF_SLAB\"}]");
+        // building_blocks.add("[{\"itemid\":\"TUFF_WALL\"}]");
+        // building_blocks.add("[{\"itemid\":\"CHISELED_TUFF\"}]");
+        // building_blocks.add("[{\"itemid\":\"POLISHED_TUFF\"}]");
+        // building_blocks.add("[{\"itemid\":\"POLISHED_TUFF_STAIRS\"}]");
+        // building_blocks.add("[{\"itemid\":\"POLISHED_TUFF_SLAB\"}]");
+        // building_blocks.add("[{\"itemid\":\"POLISHED_TUFF_WALL\"}]");
+        // building_blocks.add("[{\"itemid\":\"TUFF_BRICKS\"}]");
+        // building_blocks.add("[{\"itemid\":\"TUFF_BRICK_STAIRS\"}]");
+        // building_blocks.add("[{\"itemid\":\"TUFF_BRICK_SLAB\"}]");
+        // building_blocks.add("[{\"itemid\":\"TUFF_BRICK_WALL\"}]");
+        // building_blocks.add("[{\"itemid\":\"CHISELED_TUFF_BRICKS\"}]");
 
         map_categories.put("BUILDING_BLOCKS", building_blocks);
 
@@ -953,6 +1000,23 @@ public class CategoryFile {
         functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"pointer\"}]");
         functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"pigscene\"}]");
         functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"burning_skull\"}]");
+        // 1.21 Paintings - Removed for 1.20.6 compile compatibility
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"backyard\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"bouquet\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"cavebird\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"changing\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"cotan\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"endboss\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"fern\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"finding\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"lowmist\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"orb\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"owlemons\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"passage\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"pond\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"sunflowers\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"tides\"}]");
+        // functional_blocks.add("[{\"itemid\":\"PAINTING\"},{\"paint\":\"unpacked\"}]");
         functional_blocks.add("[{\"itemid\":\"BOOKSHELF\"}]");
         functional_blocks.add("[{\"itemid\":\"CHISELED_BOOKSHELF\"}]");
         functional_blocks.add("[{\"itemid\":\"LECTERN\"}]");
@@ -1067,6 +1131,11 @@ public class CategoryFile {
         functional_blocks.add("[{\"itemid\":\"INFESTED_CRACKED_STONE_BRICKS\"}]");
         functional_blocks.add("[{\"itemid\":\"INFESTED_CHISELED_STONE_BRICKS\"}]");
         functional_blocks.add("[{\"itemid\":\"INFESTED_DEEPSLATE\"}]");
+        // 1.21 Functional Blocks - Removed for 1.20.6 compile compatibility
+        // functional_blocks.add("[{\"itemid\":\"CRAFTER\"}]");
+        // functional_blocks.add("[{\"itemid\":\"TRIAL_SPAWNER\"}]");
+        // functional_blocks.add("[{\"itemid\":\"VAULT\"}]");
+        // functional_blocks.add("[{\"itemid\":\"HEAVY_CORE\"}]");
 
         map_categories.put("FUNCTIONAL_BLOCKS", functional_blocks);
 
@@ -1136,6 +1205,16 @@ public class CategoryFile {
         redstone_blocks.add("[{\"itemid\":\"BIG_DRIPLEAF\"}]");
         redstone_blocks.add("[{\"itemid\":\"ARMOR_STAND\"}]");
         redstone_blocks.add("[{\"itemid\":\"REDSTONE_ORE\"}]");
+        // 1.21 Redstone Blocks - Removed for 1.20.6 compile compatibility
+        // redstone_blocks.add("[{\"itemid\":\"CRAFTER\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"COPPER_BULB\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"EXPOSED_COPPER_BULB\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"WEATHERED_COPPER_BULB\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"OXIDIZED_COPPER_BULB\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"WAXED_COPPER_BULB\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"WAXED_EXPOSED_COPPER_BULB\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"WAXED_WEATHERED_COPPER_BULB\"}]");
+        // redstone_blocks.add("[{\"itemid\":\"WAXED_OXIDIZED_COPPER_BULB\"}]");
 
         map_categories.put("REDSTONE_BLOCKS", redstone_blocks);
 
@@ -1253,6 +1332,14 @@ public class CategoryFile {
         tools_and_utilities.add("[{\"itemid\":\"MUSIC_DISC_5\"}]");
         tools_and_utilities.add("[{\"itemid\":\"MUSIC_DISC_PIGSTEP\"}]");
         tools_and_utilities.add("[{\"itemid\":\"MUSIC_DISC_RELIC\"}]");
+        // 1.21 Tools and Utilities - Removed for 1.20.6 compile compatibility
+        // tools_and_utilities.add("[{\"itemid\":\"BREEZE_ROD\"}]");
+        // tools_and_utilities.add("[{\"itemid\":\"OMINOUS_BOTTLE\"}]");
+        // tools_and_utilities.add("[{\"itemid\":\"TRIAL_KEY\"}]");
+        // tools_and_utilities.add("[{\"itemid\":\"OMINOUS_TRIAL_KEY\"}]");
+        // tools_and_utilities.add("[{\"itemid\":\"MUSIC_DISC_CREATOR\"}]");
+        // tools_and_utilities.add("[{\"itemid\":\"MUSIC_DISC_PRECIPICE\"}]");
+        // tools_and_utilities.add("[{\"itemid\":\"MUSIC_DISC_CREATOR_MUSIC_BOX\"}]");
 
         map_categories.put("TOOLS_AND_UTILITIES", tools_and_utilities);
 
@@ -1357,6 +1444,10 @@ public class CategoryFile {
         combat.add("[{\"itemid\":\"TIPPED_ARROW\"},{\"bp_ext\":false,\"bp_name\":\"LUCK\",\"bp_upg\":false}]");
         combat.add("[{\"itemid\":\"TIPPED_ARROW\"},{\"bp_ext\":false,\"bp_name\":\"SLOW_FALLING\",\"bp_upg\":false}]");
         combat.add("[{\"itemid\":\"TIPPED_ARROW\"},{\"bp_ext\":true,\"bp_name\":\"SLOW_FALLING\",\"bp_upg\":false}]");
+        combat.add("[{\"itemid\":\"WOLF_ARMOR\"}]");
+        // 1.21 Combat items - Removed for 1.20.6 compile compatibility
+        // combat.add("[{\"itemid\":\"WIND_CHARGE\"}]");
+        // combat.add("[{\"itemid\":\"MACE\"}]");
 
         map_categories.put("COMBAT", combat);
 
@@ -1538,15 +1629,9 @@ public class CategoryFile {
         food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":true,\"bp_name\":\"WEAKNESS\",\"bp_upg\":false}]");
         food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":false,\"bp_name\":\"LUCK\",\"bp_upg\":false}]");
         food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":false,\"bp_name\":\"SLOW_FALLING\",\"bp_upg\":false}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":false,\"bp_name\":\"SPEED\",\"bp_upg\":true}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":false,\"bp_name\":\"SLOWNESS\",\"bp_upg\":false}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":true,\"bp_name\":\"SLOWNESS\",\"bp_upg\":false}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":false,\"bp_name\":\"SLOWNESS\",\"bp_upg\":true}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":true,\"bp_name\":\"SLOWNESS\",\"bp_upg\":false}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":true,\"bp_name\":\"WEAKNESS\",\"bp_upg\":false}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":false,\"bp_name\":\"LUCK\",\"bp_upg\":false}]");
-        food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":false,\"bp_name\":\"SLOW_FALLING\",\"bp_upg\":false}]");
         food_and_drinks.add("[{\"itemid\":\"LINGERING_POTION\"},{\"bp_ext\":true,\"bp_name\":\"SLOW_FALLING\",\"bp_upg\":false}]");
+        // 1.21 Ominous Bottle - Removed for 1.20.6 compile compatibility
+        // food_and_drinks.add("[{\"itemid\":\"OMINOUS_BOTTLE\"}]");
 
         map_categories.put("FOOD_AND_DRINKS", food_and_drinks);
 
@@ -1685,6 +1770,13 @@ public class CategoryFile {
         ingredients.add("[{\"itemid\":\"EYE_ARMOR_TRIM_SMITHING_TEMPLATE\"}]");
         ingredients.add("[{\"itemid\":\"SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE\"}]");
         ingredients.add("[{\"itemid\":\"EXPERIENCE_BOTTLE\"}]");
+        ingredients.add("[{\"itemid\":\"ARMADILLO_SCUTE\"}]");
+        // 1.21 Ingredients - Removed for 1.20.6 compile compatibility
+        // ingredients.add("[{\"itemid\":\"FLOW_POTTERY_SHERD\"}]");
+        // ingredients.add("[{\"itemid\":\"GUSTER_POTTERY_SHERD\"}]");
+        // ingredients.add("[{\"itemid\":\"SCRAPE_POTTERY_SHERD\"}]");
+        // ingredients.add("[{\"itemid\":\"FLOW_ARMOR_TRIM_SMITHING_TEMPLATE\"}]");
+        // ingredients.add("[{\"itemid\":\"BOLT_ARMOR_TRIM_SMITHING_TEMPLATE\"}]");
         ingredients.add("[{\"itemid\":\"ENCHANTED_BOOK\"},{\"enc\":\"protection\",\"lev\":4}]");
         ingredients.add("[{\"itemid\":\"ENCHANTED_BOOK\"},{\"enc\":\"protection\",\"lev\":3}]");
         ingredients.add("[{\"itemid\":\"ENCHANTED_BOOK\"},{\"enc\":\"protection\",\"lev\":2}]");
@@ -1795,10 +1887,14 @@ public class CategoryFile {
         List<String> spawn_eggs = new ArrayList<String>();
         spawn_eggs.add("[{\"itemid\":\"SPAWNER\"}]");
         spawn_eggs.add("[{\"itemid\":\"ALLAY_SPAWN_EGG\"}]");
+        spawn_eggs.add("[{\"itemid\":\"ARMADILLO_SPAWN_EGG\"}]");
         spawn_eggs.add("[{\"itemid\":\"AXOLOTL_SPAWN_EGG\"}]");
         spawn_eggs.add("[{\"itemid\":\"BAT_SPAWN_EGG\"}]");
         spawn_eggs.add("[{\"itemid\":\"BEE_SPAWN_EGG\"}]");
         spawn_eggs.add("[{\"itemid\":\"BLAZE_SPAWN_EGG\"}]");
+        // 1.21 Spawn Eggs - Removed for 1.20.6 compile compatibility
+        // spawn_eggs.add("[{\"itemid\":\"BOGGED_SPAWN_EGG\"}]");
+        // spawn_eggs.add("[{\"itemid\":\"BREEZE_SPAWN_EGG\"}]");
         spawn_eggs.add("[{\"itemid\":\"CAMEL_SPAWN_EGG\"}]");
         spawn_eggs.add("[{\"itemid\":\"CAT_SPAWN_EGG\"}]");
         spawn_eggs.add("[{\"itemid\":\"CAVE_SPIDER_SPAWN_EGG\"}]");
