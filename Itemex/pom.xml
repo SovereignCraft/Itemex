@@ -6,7 +6,7 @@
 
   <groupId>sh.ome</groupId>
   <artifactId>itemex</artifactId>
-  <version>0.30.0</version>
+  <version>0.30.6</version>
   <packaging>jar</packaging>
 
   <name>Itemex</name>
