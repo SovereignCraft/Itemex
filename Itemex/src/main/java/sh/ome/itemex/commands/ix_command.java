@@ -997,7 +997,11 @@ public class ix_command implements CommandExecutor {
 
                     // /ix withdraw <itemid> <amount>
                     else if (strings.length == 3) {
-                        p.sendMessage( withdraw(strings[1], strings[2], p) ); // itemid, amount, Player
+                        String itemid = strings[1];
+                        if (itemid.equalsIgnoreCase("scute") && Material.getMaterial("TURTLE_SCUTE") != null) {
+                            itemid = "TURTLE_SCUTE";
+                        }
+                        p.sendMessage( withdraw(itemid, strings[2], p) ); // itemid, amount, Player
                     }
 
                     else {
@@ -1289,7 +1293,7 @@ public class ix_command implements CommandExecutor {
         sqliteDb.Payout[] payouts = sqliteDb.getPayout(p.getUniqueId().toString());
         for (sqliteDb.Payout payout : payouts) {
             if(payout.itemid.equals(item_json))
-                available_items = payout.amount;
+                available_items += payout.amount;
         }
 
         if (amount.equals("max")) {
@@ -1314,12 +1318,19 @@ public class ix_command implements CommandExecutor {
             reply = Itemex.language.getString("no_space") + " you can withdraw max: " + available_items + "(available_items)";
             item_amount = available_items; // Adjust the item_amount to the available items
         }
+
+        int remaining_to_withdraw = item_amount;
         for (sqliteDb.Payout payout : payouts) {
-            if(payout.itemid.equals(item_json)) {
-                sqliteDb.updatePayout(p.getUniqueId().toString(), item_json, item_amount);
-                for(int i = 0; i < item_amount; i++) {
-                    p.getPlayer().getInventory().addItem( constructItem(item_json, 1)); // give buyer good from payout
+            if(payout.itemid.equals(item_json) && remaining_to_withdraw > 0) {
+                int amount_from_this_payout = Math.min(payout.amount, remaining_to_withdraw);
+                sqliteDb.updatePayout(p.getUniqueId().toString(), item_json, payout.amount - amount_from_this_payout);
+                int items_to_add = amount_from_this_payout;
+                while (items_to_add > 0) {
+                    int stackSize = Math.min(items_to_add, 64);
+                    p.getPlayer().getInventory().addItem( constructItem(item_json, stackSize)); // give buyer good from payout
+                    items_to_add -= stackSize;
                 }
+                remaining_to_withdraw -= amount_from_this_payout;
             }
         }
         return reply;

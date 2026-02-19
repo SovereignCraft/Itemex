@@ -811,49 +811,35 @@ public class sqliteDb {
     }
 
 
-
-
-
-
-
-
-
     public static ArrayList<ItemVolume> getItemsSortedByVolume() {
         ArrayList<ItemVolume> items = new ArrayList<>();
 
-        String volumeSql = "SELECT itemid, SUM(amount * price) as volume FROM FULFILLEDORDERS GROUP BY itemid ORDER BY volume DESC"; // Sortierung in absteigender Reihenfolge
+        String volumeSql = "SELECT itemid, SUM(CAST(amount AS REAL) * CAST(price AS REAL)) as volume FROM FULFILLEDORDERS GROUP BY itemid ORDER BY volume DESC";
 
-        if (Itemex.c == null) {
-            Itemex.c = createDatabase.createConnection();
-            getLogger().info("# WARN - reopen Database");
-        }
+        try (Connection c = createDatabase.createConnection();
+             PreparedStatement volumeStmt = c.prepareStatement(volumeSql);
+             ResultSet volumeRs = volumeStmt.executeQuery()) {
 
-        if (Itemex.c != null) {
-            try (PreparedStatement volumeStmt = Itemex.c.prepareStatement(volumeSql);
-                 ResultSet volumeRs = volumeStmt.executeQuery()) {
-
-                while (volumeRs.next()) {
-                    items.add(new ItemVolume(volumeRs.getString("itemid"), volumeRs.getLong("volume")));
-                }
-            } catch (SQLException e) {
-                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            while (volumeRs.next()) {
+                items.add(new ItemVolume(volumeRs.getString("itemid"), volumeRs.getDouble("volume")));
             }
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
 
         return items;
     }
 
-
-
     public static class ItemVolume {
         public String itemid;
-        public long volume;
+        public double volume;
 
-        public ItemVolume(String itemid, long volume) {
+        public ItemVolume(String itemid, double volume) {
             this.itemid = itemid;
             this.volume = volume;
         }
     }
+
 
 
 
@@ -1410,44 +1396,20 @@ public class sqliteDb {
 
 
     public static List<String> getAllFulfilledOrders(String itemid) {
-        PreparedStatement stmt = null;
         List<String> result = new ArrayList<>();
-
         String sql = "SELECT price, timestamp FROM FULFILLEDORDERS WHERE itemid = ? ORDER BY timestamp DESC";
 
-        if (Itemex.c == null) {
-            Itemex.c = createDatabase.createConnection();
-            getLogger().info("# WARN - reopen Database");
-        }
+        try (Connection c = createDatabase.createConnection();
+             PreparedStatement stmt = c.prepareStatement(sql)) {
 
-        if (Itemex.c != null) {
-            try {
-                stmt = Itemex.c.prepareStatement(sql);
-
-                stmt.setString(1, itemid);
-
-                ResultSet rs = stmt.executeQuery();
-
+            stmt.setString(1, itemid);
+            try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    String price = rs.getString("price");
-                    String timestamp = rs.getString("timestamp");
-
-                    result.add(price + ":" + timestamp);
-                }
-
-            } catch (Exception e) {
-                System.err.println("- ERROR: at getAllFulfilledOrders: " + e);
-
-                return Collections.emptyList();
-            } finally {
-                try {
-                    if (stmt != null) {
-                        stmt.close();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    result.add(rs.getString("price") + ":" + rs.getString("timestamp"));
                 }
             }
+        } catch (Exception e) {
+            System.err.println("- ERROR: at getAllFulfilledOrders: " + e);
         }
         return result;
     }

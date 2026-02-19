@@ -55,6 +55,7 @@ import sh.ome.itemex.functions.sqliteDb;
 import sh.ome.itemex.shedule.DataDifferenceSender;
 import sh.ome.itemex.shedule.Metrics;
 import sh.ome.itemex.shedule.UpdateItemex;
+import sh.ome.itemex.web.WebServer;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -112,7 +113,7 @@ public final class Itemex extends JavaPlugin implements Listener {
 
     public static Connection c;
 
-
+    private WebServer webServer;
 
 
     @Override
@@ -173,6 +174,7 @@ public final class Itemex extends JavaPlugin implements Listener {
         // generate config file
         config.options().copyDefaults(true);
         config.addDefault("id", getAlphaNumericString(15));
+        config.addDefault("web_port", 8081);
         saveConfig();
 
 
@@ -310,6 +312,10 @@ public final class Itemex extends JavaPlugin implements Listener {
         }
         */
 
+        int webPort = config.getInt("web_port", 8081);
+        webServer = new WebServer(this, webPort);
+        webServer.start();
+
 
     } // end onenable()
 
@@ -339,6 +345,9 @@ public final class Itemex extends JavaPlugin implements Listener {
             checkAndSendUsageCounts();
         }
         */
+        if (webServer != null) {
+            webServer.stop();
+        }
         mtop = null;
         System.gc(); // Suggest JVM to run garbage collection
         getLogger().info("ITEMEX - Free Market Item Exchange Plugin unloaded");
