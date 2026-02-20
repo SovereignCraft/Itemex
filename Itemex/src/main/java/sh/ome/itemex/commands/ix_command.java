@@ -1001,7 +1001,7 @@ public class ix_command implements CommandExecutor {
                         if (itemid.equalsIgnoreCase("scute") && Material.getMaterial("TURTLE_SCUTE") != null) {
                             itemid = "TURTLE_SCUTE";
                         }
-                        p.sendMessage( withdraw(itemid, strings[2], p) ); // itemid, amount, Player
+                        reply_command = withdraw(itemid, strings[2], p); // itemid, amount, Player
                     }
 
                     else {
@@ -1323,7 +1323,7 @@ public class ix_command implements CommandExecutor {
         for (sqliteDb.Payout payout : payouts) {
             if(payout.itemid.equals(item_json) && remaining_to_withdraw > 0) {
                 int amount_from_this_payout = Math.min(payout.amount, remaining_to_withdraw);
-                sqliteDb.updatePayout(p.getUniqueId().toString(), item_json, payout.amount - amount_from_this_payout);
+                sqliteDb.updatePayout(p.getUniqueId().toString(), item_json, amount_from_this_payout);
                 int items_to_add = amount_from_this_payout;
                 while (items_to_add > 0) {
                     int stackSize = Math.min(items_to_add, 64);
@@ -1331,6 +1331,8 @@ public class ix_command implements CommandExecutor {
                     items_to_add -= stackSize;
                 }
                 remaining_to_withdraw -= amount_from_this_payout;
+                if (!reply.isEmpty()) reply += "\n";
+                reply += ChatColor.GREEN + "Withdrawn " + amount_from_this_payout + " " + get_meta(item_json);
             }
         }
         return reply;
