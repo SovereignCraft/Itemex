@@ -64,6 +64,8 @@ public class WebServer {
                 new HistoryHandler().handle(t);
             } else if (path.contains("/api/orders")) {
                 new OrdersHandler().handle(t);
+            } else if (path.contains("/api/config")) {
+                new ConfigHandler().handle(t);
             } else {
                 // Default to static handler (HTML) for root or unknown paths
                 new StaticHandler().handle(t);
@@ -81,18 +83,43 @@ public class WebServer {
                     "<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" +
                     "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css\" rel=\"stylesheet\">" +
                     "<script src=\"https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js\"></script>" +
-                    "<style>body{height:100vh;overflow:hidden;} #sidebar{height:100vh;display:flex;flex-direction:column;border-right:1px solid #495057;} #item-list-container{flex:1;overflow-y:auto;} #content{height:100vh;overflow-y:auto;padding:20px;} #orderbook{height:100vh;overflow-y:auto;border-left:1px solid #495057;} .item-row{cursor:pointer;} .item-row:hover{background-color:rgba(255,255,255,0.1);}</style>" +
+                    "<style>" +
+                    "body{height:100vh;overflow:hidden;display:flex;flex-direction:column;}" +
+                    ".mobile-header{display:none;}" +
+                    "#main-container{flex:1;overflow:hidden;padding:0;}" +
+                    ".row{height:100%;margin:0;}" +
+                    "#sidebar{height:100%;display:flex;flex-direction:column;border-right:1px solid #495057;}" +
+                    "#item-list-container{flex:1;overflow-y:auto;}" +
+                    "#content{height:100%;overflow-y:auto;padding:20px;}" +
+                    "#orderbook{height:100%;overflow-y:auto;border-left:1px solid #495057;}" +
+                    "@media (max-width: 768px) {" +
+                    "  .mobile-header { display: flex; align-items: center; padding: 10px; background-color: #212529; border-bottom: 1px solid #495057; flex: 0 0 auto; }" +
+                    "  #sidebar { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050; background-color: #212529; }" +
+                    "  #sidebar.show { display: flex; }" +
+                    "  #content { height: 60%; padding-top: 10px; }" +
+                    "  #orderbook { height: 40%; border-left: none; border-top: 1px solid #495057; }" +
+                    "}" +
+                    "</style>" +
                     "</head><body>" +
-                    "<div class=\"container-fluid\">" +
+                    
+                    // Mobile Header
+                    "<div class=\"mobile-header\">" +
+                    "<button class=\"btn btn-outline-secondary w-100 text-start\" onclick=\"openSidebar()\">🔍 Search items...</button>" +
+                    "</div>" +
+
+                    "<div class=\"container-fluid\" id=\"main-container\">" +
                     "<div class=\"row\">" +
                     
                     // Sidebar
                     "<div class=\"col-md-2 p-0 bg-body-tertiary\" id=\"sidebar\">" +
-                    "<div class=\"p-3 border-bottom border-secondary\">" +
+                    "<div class=\"p-3 border-bottom border-secondary d-flex justify-content-between align-items-center\">" +
                     "<h5>Commodities</h5>" +
+                    "<button class=\"btn btn-close btn-close-white d-md-none\" onclick=\"closeSidebar()\"></button>" +
+                    "</div>" +
+                    "<div class=\"px-3\">" +
                     "<input type=\"text\" id=\"search-input\" class=\"form-control form-control-sm bg-dark text-light border-secondary mt-2\" placeholder=\"Search items...\">" +
                     "</div>" +
-                    "<div class=\"list-group list-group-flush\" id=\"item-list-container\">" +
+                    "<div class=\"list-group list-group-flush mt-2\" id=\"item-list-container\">" +
                     "<div id=\"item-list\"><div class=\"text-center p-3 text-muted\">Loading...</div></div>" +
                     "</div></div>" +
                     
@@ -121,6 +148,22 @@ public class WebServer {
                     
                     "</div></div>" +
                     "<script>" +
+                    "function openSidebar() { document.getElementById('sidebar').classList.add('show'); document.getElementById('search-input').focus(); }" +
+                    "function closeSidebar() { document.getElementById('sidebar').classList.remove('show'); }" +
+                    "\n" +
+                    "let config = { currencySymbol: '$', decimals: 2, decimal_separator: '.', thousand_separator: ',', unitLocation: 'left' };\n" +
+                    "// Fetch config\n" +
+                    "fetch('api/config').then(r => r.json()).then(c => { config = c; });\n" +
+                    "\n" +
+                    "function formatPrice(price) {\n" +
+                    "  let p = parseFloat(price).toFixed(config.decimals);\n" +
+                    "  let parts = p.split('.');\n" +
+                    "  parts[0] = parts[0].replace(/\\B(?=(\\d{3})+(?!\\d))/g, config.thousand_separator);\n" +
+                    "  let formatted = parts.join(config.decimal_separator);\n" +
+                    "  if (config.unitLocation === 'right') return formatted + config.currencySymbol;\n" +
+                    "  return config.currencySymbol + formatted;\n" +
+                    "}\n" +
+                    "\n" +
                     "let allItems = [];\n" +
                     "// Fetch items using relative path\n" +
                     "fetch('api/items')" +
@@ -148,7 +191,11 @@ public class WebServer {
                     "  items.slice(0, limit).forEach(item => {" +
                     "    const a = document.createElement('a');" +
                     "    a.className = 'list-group-item list-group-item-action item-row bg-transparent text-light border-secondary';" +
-                    "    a.innerHTML = `<div class='d-flex justify-content-between align-items-center'><strong>${item.name}</strong></div>`;" +
+                    "    let priceHtml = '';" +
+                    "    if (item.price) {" +
+                    "      priceHtml = `<span class='badge bg-secondary'>${formatPrice(item.price)}</span>`;" +
+                    "    }" +
+                    "    a.innerHTML = `<div class='d-flex justify-content-between align-items-center'><strong>${item.name}</strong>${priceHtml}</div>`;" +
                     "    a.onclick = () => loadItem(item.itemid, item.name);" +
                     "    list.appendChild(a);" +
                     "  });" +
@@ -174,6 +221,7 @@ public class WebServer {
                     "let currentItem = '';" +
                     "function loadItem(itemid, name) {" +
                     "  currentItem = itemid;" +
+                    "  if (window.innerWidth < 768) closeSidebar();" +
                     "  document.getElementById('chart-title').textContent = name + ' Price History';" +
                     "  \n" +
                     "  // Load History\n" +
@@ -195,12 +243,12 @@ public class WebServer {
                     "    \n" +
                     "    if (data.asks.length === 0) asksBody.innerHTML = '<tr><td colspan=\"2\" class=\"text-muted text-center\">No asks</td></tr>';" +
                     "    else data.asks.forEach(o => {" +
-                    "      asksBody.innerHTML += `<tr><td class=\"text-danger\">${o.price.toFixed(2)}</td><td class=\"text-end\">${o.amount}</td></tr>`;" +
+                    "      asksBody.innerHTML += `<tr><td class=\"text-danger\">${formatPrice(o.price)}</td><td class=\"text-end\">${o.amount}</td></tr>`;" +
                     "    });" +
                     "    \n" +
                     "    if (data.bids.length === 0) bidsBody.innerHTML = '<tr><td colspan=\"2\" class=\"text-muted text-center\">No bids</td></tr>';" +
                     "    else data.bids.forEach(o => {" +
-                    "      bidsBody.innerHTML += `<tr><td class=\"text-success\">${o.price.toFixed(2)}</td><td class=\"text-end\">${o.amount}</td></tr>`;" +
+                    "      bidsBody.innerHTML += `<tr><td class=\"text-success\">${formatPrice(o.price)}</td><td class=\"text-end\">${o.amount}</td></tr>`;" +
                     "    });" +
                     "  });" +
                     "}" +
@@ -243,6 +291,16 @@ public class WebServer {
                                             Map<String, String> itemData = new HashMap<>();
                                             itemData.put("name", itemName);
                                             itemData.put("itemid", item_json);
+                                            
+                                            // Fetch last price
+                                            String lastPriceRaw = sqliteDb.getLastPrice(item_json);
+                                            if (lastPriceRaw != null && !lastPriceRaw.equals("0")) {
+                                                String[] parts = lastPriceRaw.split(":");
+                                                if (parts.length > 0) {
+                                                    itemData.put("price", parts[0]);
+                                                }
+                                            }
+                                            
                                             items.add(itemData);
                                         } catch (Exception e) {
                                             // ignore bad items
@@ -351,6 +409,27 @@ public class WebServer {
 
             Gson gson = new Gson();
             String json = gson.toJson(orders);
+            byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+            t.getResponseHeaders().set("Content-Type", "application/json");
+            t.sendResponseHeaders(200, bytes.length);
+            OutputStream os = t.getResponseBody();
+            os.write(bytes);
+            os.close();
+        }
+    }
+
+    class ConfigHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            Map<String, Object> config = new HashMap<>();
+            config.put("currencySymbol", Itemex.currencySymbol);
+            config.put("decimals", Itemex.decimals);
+            config.put("decimal_separator", String.valueOf(Itemex.decimal_separator));
+            config.put("thousand_separator", String.valueOf(Itemex.thousand_separator));
+            config.put("unitLocation", Itemex.unitLocation);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(config);
             byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
             t.getResponseHeaders().set("Content-Type", "application/json");
             t.sendResponseHeaders(200, bytes.length);
